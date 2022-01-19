@@ -1,5 +1,6 @@
 //feature-1
 import React, { useState } from 'react';
+import { Cart } from './components/Cart';
 import { Filter } from './components/Filter';
 import { Products } from './components/Products';
 import data from "./data.json";
@@ -38,17 +39,41 @@ import data from "./data.json";
 //   }
 // }
 
-function App() {
+const App = () => {
 
   const products = data.products;
 
   const [datos, setDatos] = useState(
     {
       products: products,
+      cartItems: [],
       size: "",
       sort: ""
     }
-  )
+  );
+
+  const removeFromCart = (product) => {
+    const cartItems = datos.cartItems.slice();
+    setDatos({
+      ...datos,cartItems:cartItems.filter((x) => x._id !== product._id)
+    });
+    
+  }
+
+  const addToCart = (product) => {
+    const cartItems = datos.cartItems.slice();
+    let alreadyInCart = false;
+    cartItems.forEach(item =>{
+      if(item._id === product._id){
+        item.count++;
+        alreadyInCart = true
+      }
+      });
+      if(!alreadyInCart){
+        cartItems.push({...product, count:1})
+      }
+      setDatos({...datos,cartItems});
+  }
   const sortProducts = (event) => {
     const sort = event.target.value;
     setDatos((datos) => ({
@@ -98,7 +123,7 @@ function App() {
     } else {
 
       setDatos ({
-        sort: datos.sort,
+        ...datos,
         size: event.target.value,
         products: products.filter(
           (product) => product.availableSizes.indexOf(event.target.value) >= 0).slice()
@@ -137,9 +162,11 @@ function App() {
               filterProducts={filterProducts}
               products={datos.products}
             ></Filter>
-            <Products products={datos.products}></Products>
+            <Products products={datos.products} addToCart={addToCart}></Products>
           </div>
-          <div className='sidebar'>Cart Items</div>
+          <div className='sidebar'>
+            <Cart cartItems={datos.cartItems} removeFromCart={removeFromCart} ></Cart>
+          </div>
         </div>
       </main>
       <footer>
