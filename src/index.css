@@ -85,7 +85,7 @@ code {
   display:flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  /*align-items: center;*/
   padding: 0;
   margin: 0;
   list-style-type: none;
@@ -197,4 +197,29 @@ code {
 .total > div,
 .total > button {
   flex: 1;
+}
+
+/* grilla*/
+.grilla{
+  display: grid;
+}
+.grilla-relativa{
+  grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+/* transition */
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
 }

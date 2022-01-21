@@ -48,7 +48,8 @@ const App = () => {
       products: products,
       cartItems: [],
       size: "",
-      sort: ""
+      sort: "",
+      load: true
     }
   );
 
@@ -76,8 +77,11 @@ const App = () => {
   }
   const sortProducts = (event) => {
     const sort = event.target.value;
+    
+      
     setDatos((datos) => ({
       ...datos,
+      load:true,
       sort,
       products: datos.products
         .slice()
@@ -95,6 +99,7 @@ const App = () => {
                 : -1
         ),
     }))
+    
   }
 
   const  filterProducts = (event) => {
@@ -144,7 +149,6 @@ const App = () => {
       
     }
   }
-
   
 
   return (
@@ -160,9 +164,9 @@ const App = () => {
               //size={datos.size}
               sortProducts={sortProducts}
               filterProducts={filterProducts}
-              products={datos.products}
+              products={datos.products} 
             ></Filter>
-            <Products products={datos.products} addToCart={addToCart}></Products>
+            <Products products={datos.products} load={datos.load} addToCart={addToCart}></Products>
           </div>
           <div className='sidebar'>
             <Cart cartItems={datos.cartItems} removeFromCart={removeFromCart} ></Cart>
